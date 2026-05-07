@@ -1,26 +1,31 @@
-# 📈 BankBeES ETF Price Predictor
+# 📈 BankBeES Stock Price Predictor
 
 ## 🎯 Project Overview
-This project is a Machine Learning model designed to predict the daily closing price of the **Nifty Bank BeES ETF (BANKBEES.NS)**. It utilizes historical stock data and applies Classical Machine Learning techniques, specifically Time-Series forecasting and Regression, to identify trends and make price predictions.
+This project is a dedicated Machine Learning application designed to analyze and predict the stock prices of **BankBeES** (Banking Index Benchmark Exchange Traded Scheme). Using historical data and the Linear Regression algorithm, the project aims to identify price trends and provide forecasts for the next 30 days. It serves as a tool for understanding market movements through data science.
 
-## 🛠️ Tech Stack & Concepts Used
+## 🛠️ Tech Stack & Libraries
 * **Language:** Python
-* **Libraries:** Pandas, NumPy, Scikit-Learn, yfinance, Matplotlib
-* **Machine Learning Model:** Random Forest Regressor
-* **Key Concepts:** Feature Engineering (Moving Averages, Daily Returns), Handling Data Leakage in Time Series, Regression Metrics (MAE, RMSE)
+* **Data Fetching:** `yfinance` (Yahoo Finance API)
+* **Data Manipulation:** `pandas`, `numpy`
+* **Machine Learning:** `scikit-learn` (Linear Regression)
+* **Visualization:** `plotly`, `matplotlib`
+* **Web Dashboard:** `streamlit`
 
-## 📊 Feature Engineering Highlights
-To prevent 'Data Leakage' and improve model accuracy, I engineered the following features:
-1. **Target Shifting:** Shifted the closing price by -1 day to predict *tomorrow's* price using *today's* data.
-2. **Moving Averages:** Added 10-day (MA_10) and 50-day (MA_50) moving averages to capture market trends.
-3. **Daily Returns:** Calculated percentage changes to measure volatility.
+## ⚙️ Key Features
+* **Automated Data Retrieval:** Automatically fetches the latest historical stock data from Yahoo Finance.
+* **Predictive Modeling:** Utilizes a Linear Regression model trained on historical closing prices to estimate future trends.
+* **Historical Analysis:** Provides visual insights into long-term price movements and volatility.
+* **Dynamic Forecasting:** Generates a 30-day price outlook presented through interactive charts.
 
-## 📈 Results & Evaluation
-* **Mean Absolute Error (MAE):** ₹34.09
-* **Root Mean Squared Error (RMSE):** ₹41.90
-*(The model successfully captures the broader market trend with a reasonable margin of error, making it a strong baseline for algorithmic analysis.)*
+## 🖥️ Interactive Dashboard
+I have built an interactive web dashboard using **Streamlit**. 
+**Features:**
+* **Live Data:** Fetches real-time stock data dynamically.
+* **Interactive Charts:** Detailed visualization of historical trends and future forecasts using `Plotly`.
+* **Real-time Prediction:** Adjusts predictions instantly based on the latest available market data.
 
 ## 🚀 How to Run
-1. Clone the repository: `git clone https://github.com/pramodj551-oss/BankBeES-Stock-Predictor.git`
-2. Install dependencies: `pip install yfinance pandas scikit-learn matplotlib`
-3. Run the Jupyter Notebook to fetch real-time data and train the model.
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/pramodj551-oss/BankBeES-Stock-Predictor.git](https://github.com/pramodj551-oss/BankBeES-Stock-Predictor.git)

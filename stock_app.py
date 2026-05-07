@@ -29,11 +29,53 @@ def load_data(ticker):
     df = df.dropna()
     return df
 
+# Fetching Data
 data = load_data(stock_symbol)
 
-if data is None or len(data) == 0:
+if data is None:
     st.error("Error: Could not fetch data. Please check the Ticker symbol.")
-    st.stop()
+else:
+    # 1. Display Raw Data
+    st.subheader("Historical Data Overview (Last 5 Days)")
+    st.write(data.tail())
+
+    # 2. Historical Chart
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="Close Price", line=dict(color='royalblue')))
+    fig.layout.update(title_text="Historical Price Trend", xaxis_rangeslider_visible=True, template="plotly_dark")
+    st.plotly_chart(fig)
+
+    # 3. Prediction Logic
+    st.subheader("Stock Price Prediction")
+    
+    # Prepare Data
+    data['Date_Ordinal'] = pd.to_datetime(data['Date']).map(pd.Timestamp.toordinal)
+    X = data['Date_Ordinal'].values.reshape(-1, 1)
+    y = data['Close'].values.reshape(-1, 1)
+
+    # Train Model
+    model = LinearRegression()
+    model.fit(X, y)
+
+    # Future Forecast
+    last_date = data['Date'].max()
+    future_dates = pd.date_range(start=last_date + timedelta(days=1), periods=30)
+    future_ordinal = np.array([d.toordinal() for d in future_dates]).reshape(-1, 1)
+    predictions = model.predict(future_ordinal)
+
+    forecast_df = pd.DataFrame({'Date': future_dates, 'Predicted Price': predictions.flatten()})
+    st.write("Predicted Prices for the next 30 days:")
+    st.dataframe(forecast_df.head(10))
+
+    # 4. Forecast Chart
+    fig2 = go.Figure()
+    fig2.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="Historical Close", line=dict(color='gray')))
+    fig2.add_trace(go.Scatter(x=forecast_df['Date'], y=forecast_df['Predicted Price'], name="Predicted Price", line=dict(color='orange', dash='dash')))
+    fig2.layout.update(title_text="Price Forecast (Next 30 Days)", template="plotly_dark")
+    st.plotly_chart(fig2)
+
+st.sidebar.markdown("---")
+st.sidebar.info("Disclaimer: This is for educational purposes only.")
 
 # --- Raw Data Overview ---
 st.subheader("Historical Data Overview (Last 5 Days)")

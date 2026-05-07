@@ -17,7 +17,7 @@ stock_symbol = st.sidebar.text_input("Enter Stock Ticker", "BANKBEES.NS")
 start_date = "2015-01-01"
 today = date.today().strftime("%Y-%m-%d")
 
-# --- Function to Load Data ---
+# --- Load Data ---
 @st.cache_data(ttl=3600)
 def load_data(ticker):
     df = yf.download(ticker, start=start_date, end=today)
@@ -28,13 +28,67 @@ def load_data(ticker):
         df.columns = df.columns.get_level_values(0)
     return df.dropna()
 
-# Fetch data
 data = load_data(stock_symbol)
 
-# --- Error Check ---
 if data is None:
-    st.error("⚠️ Could not fetch data. Yahoo Finance may be rate limiting. Please reload in a minute.")
+    st.error("Could not fetch data. Yahoo Finance may be rate limiting. Please reload.")
     st.stop()
+
+# --- Historical Data ---
+st.subheader("Historical Data Overview (Last 5 Days)")
+st.write(data.tail())
+
+# --- Historical Chart ---
+fig1 = go.Figure()
+fig1.add_trace(
+    go.Scatter(x=data['Date'], y=data['Close'], name="Close Price", line=dict(color='royalblue'))
+)
+fig1.layout.update(
+    title_text="Historical Price Trend",
+    xaxis_rangeslider_visible=True,
+    template="plotly_dark"
+)
+st.plotly_chart(fig1)
+
+# --- Prediction ---
+st.subheader("Stock Price Prediction")
+
+data['Date_Ordinal'] = pd.to_datetime(data['Date']).map(pd.Timestamp.toordinal)
+X = data['Date_Ordinal'].values.reshape(-1, 1)
+y = data['Close'].values.reshape(-1, 1)
+
+model = LinearRegression()
+model.fit(X, y)
+
+last_date = data['Date'].max()
+future_dates = pd.date_range(start=last_date + timedelta(days=1), periods=30)
+future_ordinal = np.array([d.toordinal() for d in future_dates]).reshape(-1, 1)
+predictions = model.predict(future_ordinal)
+
+forecast_df = pd.DataFrame({
+    'Date': future_dates,
+    'Predicted Price': predictions.flatten()
+})
+
+st.write("Predicted Prices for the next 30 days:")
+st.dataframe(forecast_df.head(10))
+
+# --- Forecast Chart ---
+fig2 = go.Figure()
+fig2.add_trace(
+    go.Scatter(x=data['Date'], y=data['Close'], name="Historical Close", line=dict(color='gray'))
+)
+fig2.add_trace(
+    go.Scatter(x=forecast_df['Date'], y=forecast_df['Predicted Price'], name="Predicted Price", line=dict(color='orange', dash='dash'))
+)
+fig2.layout.update(
+    title_text="Price Forecast (Next 30 Days)",
+    template="plotly_dark"
+)
+st.plotly_chart(fig2)
+
+st.sidebar.markdown("---")
+st.sidebar.info("Educational purposes only. No financial advice.")    st.stop()
 
 # --- 1. Historical Data Display ---
 st.subheader("Historical Data Overview (Last 5 Days)")

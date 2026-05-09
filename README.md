@@ -216,7 +216,7 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 ## 📧 Contact
 
-**Suchita** — IIT Patna Applied AI & ML Program  
+**Pramod** — IIT Patna Applied AI & ML Program  
 GitHub: [@pramodj551-oss](https://github.com/pramodj551-oss)  
 For issues: [Open a GitHub Issue](https://github.com/pramodj551-oss/BankBeES-Stock-Predictor/issues)
 

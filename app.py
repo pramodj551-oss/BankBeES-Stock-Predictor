@@ -142,7 +142,7 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("**👤 Pramod Prakash Jadhav**")
     st.markdown("🎓 IIT Patna — Applied AI & ML")
-    st.markdown("[GitHub](https://github.com/pramodj551-oss) | [LinkedIn](https://linkedin.com/in/pramod-jadhav-42ba2281)")
+    st.markdown("[GitHub](https://github.com/pramodj551-oss) | [LinkedIn](https://www.linkedin.com/in/pramod-prakash-jadhav-42ba2281)")
     st.markdown("---")
     st.info("📌 Uses realistic simulated BANKBEES data for demonstration purposes.")
 

@@ -1,22 +1,8 @@
-# BankBeES — Streamlit Cloud Compatible Requirements
-
-# Data
+# BankBeES — Streamlit Cloud Safe (lightweight only)
 yfinance>=0.2.38
 pandas>=2.0.0
 numpy>=1.24.0
-
-# Machine Learning
 scikit-learn>=1.4.0
 statsmodels>=0.14.0
-
-# Prophet (Streamlit Cloud compatible)
-prophet>=1.1.5
-
-# Deep Learning — CPU only (lighter, works on Streamlit Cloud)
-tensorflow-cpu>=2.15.0
-
-# Visualization
 plotly>=5.18.0
-
-# Web App
 streamlit>=1.32.0

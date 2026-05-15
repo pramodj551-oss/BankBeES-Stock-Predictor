@@ -502,7 +502,7 @@ with tab1:
         st.plotly_chart(chart_technical(df), use_container_width=True)
 
     else:
-        with st.spinner(f"⚙️ Running {model_choice} ({forecast_days}-day forecast) …"):
+        with st.spinner("Running " + model_choice + " (" + str(forecast_days) + "-day forecast)..."):
             try:
                 future_dates, preds, conf_low, conf_high = FORECAST_DISPATCH[model_choice](
                     df, forecast_days
